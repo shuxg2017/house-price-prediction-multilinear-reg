@@ -38,7 +38,7 @@ This is a good sign.<br>
 
 ### Relation Between Longitude, Latitude and SalePrice
 
-With latitude increase, house price generally increases.<br>
-With longitude decrease, house price generally decreases.<br>
+With latitude increases, house price generally increases.<br>
+With longitude decreases, house price generally decreases.<br>
 
 ![Map](/figures/lon_lat_price.png)
