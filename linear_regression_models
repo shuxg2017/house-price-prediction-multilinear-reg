@@ -1,0 +1,36 @@
+########### Ordinary least Square ###########
+class OLS():
+    # Only for y = w1*x1 + w0
+    def fit(self, X, y):
+        shape = X.shape
+        N = shape[0]
+        d = np.mean(X**2) - np.mean(X)**2
+        self.w_0 = (np.mean(y) * np.mean(X**2) -\
+                    np.mean(X) * np.mean(X * y))/d
+        self.w_1 = (np.mean(X * y) - np.mean(X) * np.mean(y))/d
+    def predict(self, X):
+        y_hat = self.w_1*X + self.w_0
+        return y_hat
+
+########### Multi Linear Regressor ###########
+class MultiLinearRegressor():
+    def fit(self, X, y):
+        self.weights = np.linalg.solve(X.T@X, X.T@y)
+    def predict(self, X):
+        return np.matmul(X, self.weights)
+
+########### R square ###########
+def r_square(y, y_hat):
+    sst = np.mean((y - np.mean(y))**2)
+    sse = np.mean((y_hat - y)**2)
+#     ssr = np.mean((y_hat - np.mean(y))**2)
+    return 1 - (sse/sst)
+
+########### MSE ###########
+def mean_square_error(y, y_hat):
+    return np.mean((y - y_hat)**2)
+
+########### house price acc ###########
+def regressionAcc(y, y_hat):
+    error = y - y_hat
+    return np.mean(1 - np.abs(error/y))
