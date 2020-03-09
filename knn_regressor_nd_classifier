@@ -1,0 +1,48 @@
+def accuracy(y, y_hat):
+    return np.mean(y == y_hat)
+
+
+class KNNClassifier():
+    def fit(self, X, y):
+        self.X = X
+        self.y = y.astype(int)
+    def predict(self, X, k, epsilon=1e-2):
+        N = len(X)
+        y_hat = np.zeros(N)
+        for i in range(N):
+            dist = np.sum((self.X - X[i])**2, axis=1) # find distance
+            idx = np.argsort(dist)[:k] # get the data indexes whose distances are the closest
+            ws = (np.sqrt(dist[idx]) + epsilon)**-1
+            y_hat[i] = np.bincount(self.y[idx], weights=ws).argmax()
+        return y_hat
+        
+        
+class KNNRegressor():
+    def fit(self, X, y):
+        self.X = X
+        self.y = y
+        
+    def predict(self, X, k):
+        N = len(X)
+        y_hat = np.zeros(N)
+        for i in range(N):
+            dist = np.sum((self.X -X[i])**2, axis = 1)
+            idx = np.argsort(dist)[:k]
+            gamma_k = np.exp(-dist[idx])/np.exp(-dist[idx]).sum()
+            y_hat[i] = gamma_k.dot(self.y[idx])
+        return y_hat
+    
+class Regressor():
+    def fit(self, X, y):
+        self.X = X
+        self.y = y
+        
+    def predict(self, X, k, epsilon = 1e-3):
+        N = len(X)
+        y_hat = np.zeros(N)
+        for i in range(N):
+            dist = np.sum((self.X -X[i])**2, axis = 1)
+            idx = np.argsort(dist)[:k]
+            gamma_k = 1/(np.sqrt(dist[idx]) + epsilon)
+            y_hat[i] = gamma_k.dot(self.y[idx])/gamma_k.sum()
+        return y_hat
